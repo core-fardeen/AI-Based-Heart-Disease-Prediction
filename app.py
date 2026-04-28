@@ -20,7 +20,10 @@ st.set_page_config(
 
 # Load environment variables
 load_dotenv()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+try:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+except (KeyError, FileNotFoundError, st.errors.StreamlitSecretNotFoundError):
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Load saved model, scaler, and expected columns
 @st.cache_resource
